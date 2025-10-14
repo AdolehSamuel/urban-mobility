@@ -1,0 +1,27 @@
+{
+    "name": "urban-mobility-backend",
+    "version": "1.0.0",
+    "description": "Backend API for NYC Taxi Trip Duration Dashboard",
+    "main": "server.js",
+    "scripts": {
+        "start": "node server.js",
+        "dev": "nodemon server.js"
+    },
+    "dependencies": {
+        "cors": "^2.8.5",
+        "csv-parser": "^3.2.0",
+        "express": "^4.18.2",
+        "sqlite3": "^5.1.7"
+    },
+    "devDependencies": {
+        "nodemon": "^3.0.1"
+    },
+    "keywords": [
+        "taxi",
+        "nyc",
+        "mobility",
+        "dashboard"
+    ],
+    "author": "",
+    "license": "MIT"
+}
