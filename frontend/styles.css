@@ -13,7 +13,6 @@ body {
   min-height: 100vh;
 }
 
-/* Header Styles */
 .header {
   background: linear-gradient(
     180deg,
@@ -62,14 +61,12 @@ body {
   opacity: 0.9;
 }
 
-/* Main Content */
 .main-content {
   max-width: 1200px;
   margin: 0 auto;
   padding: 3rem 2rem;
 }
 
-/* Summary Stats Section */
 .summary-stats {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -127,7 +124,6 @@ body {
   opacity: 0.6;
 }
 
-/* Section Headers */
 .section-header {
   display: flex;
   justify-content: space-between;
@@ -153,7 +149,6 @@ section h2 {
   border: 1px solid rgba(189, 240, 230, 0.3);
 }
 
-/* Trips Section */
 .trips-section {
   margin-bottom: 4rem;
 }
@@ -223,7 +218,6 @@ section h2 {
   font-size: 0.875rem;
 }
 
-/* Charts Section */
 .charts-section {
   margin-bottom: 4rem;
 }
@@ -270,7 +264,6 @@ section h2 {
   color: #979797;
 }
 
-/* Footer */
 .footer {
   background: linear-gradient(
     180deg,
@@ -290,7 +283,6 @@ section h2 {
   font-size: 0.875rem;
 }
 
-/* Pagination Controls */
 .pagination-controls {
   display: flex;
   justify-content: center;
