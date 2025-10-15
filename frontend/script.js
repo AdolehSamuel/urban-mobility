@@ -1,4 +1,7 @@
-const API_URL = "http://localhost:4500";
+// This is our test URL locally, we have now deployed our backend
+// const API_URL = "http://localhost:4500";
+
+const API_URL = "https://urban-mobility-bj30.onrender.com";
 
 // Fetch and render summary stats
 async function loadSummaryStats() {
