@@ -1,6 +1,3 @@
-// Trip-related API routes
-// TODO: implement route logic for trip data endpoints
-
 const express = require("express");
 const router = express.Router();
 const path = require("path");

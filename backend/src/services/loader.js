@@ -127,11 +127,10 @@ stream
     }
 
     console.log("Closing Log Stream...\n");
-    // Close the log stream first
     invalidLogStream.end();
 
     console.log("Closing DB...\n");
-    // Close the database connection
+
     db.close(closeErr => {
       if (closeErr) {
         console.log("Could not close DB...\n");
