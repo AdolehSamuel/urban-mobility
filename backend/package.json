@@ -8,7 +8,8 @@
         "dev": "nodemon server.js",
         "remove-processed": "rm -rf src/db/trips.db && rm -rf src/data/invalid_rows.log",
         "process-data": "npm run remove-processed && node src/services/loader.js",
-        "add-indexes": "node src/services/index-creation.js"
+        "add-indexes": "node src/services/index-creation.js",
+        "fetch-large-files": "sudo chmod u+x fetch-large-files.sh && ./fetch-large-files.sh"
     },
     "dependencies": {
         "cors": "^2.8.5",
