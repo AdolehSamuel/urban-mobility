@@ -1,103 +1,150 @@
-# Urban Mobility Data Explorer
+## Urban Mobility Dashboard (NYC Taxi Trips)
 
-A web-based dashboard for analyzing NYC taxi trip data, providing insights into urban mobility patterns.
+This project shows NYC taxi trip data. It has:
 
-## Features
+- A backend API (Node.js + Express + SQLite)
+- A simple website (HTML/CSS/JS) with charts and a table
 
-- Real-time statistics dashboard
-- Trip data visualization
-- Hourly trip distribution charts
-- Paginated trip data viewing
-- Responsive design for all devices
+---
 
-## Tech Stack
-
-### Frontend
-- HTML5/CSS
-- JavaScript
-- Chart.js for data visualization
-- CSS Grid/Flexbox for responsive layouts
-
-### Backend
-- Node.js
-- Express.js
-- SQLite3 for data storage
-- CSV Parser for data ingestion
-
-## Project Structure
+## What’s inside
 
 ```
-urban-mobility/
-├── backend/
-│   ├── src/
-│   │   ├── app.js         # Express app configuration
-│   │   ├── routes/        # API routes
-│   │   ├── services/      # Business logic
-│   │   └── db/           # Database files
-│   ├── package.json
-│   └── server.js         # Server entry point
-└── frontend/
-    ├── index.html        # Main dashboard page
-    ├── styles.css        # Styling
-    ├── script.js         # Frontend logic
-    └── utils.js          # Utility functions
+backend/
+  server.js              # Starts the API
+  package.json           # Scripts and dependencies
+  src/
+    app.js              # Express setup
+    routes/trips.js     # API routes
+    services/
+      loader.js         # Load CSV into SQLite
+      index-creation.js # Create database indexes
+      algorithms.js     # Simple anomaly checks
+      helpers.js        # Helper code for loader.js
+    db/
+      trips.db          # SQLite database (created by scripts)
+    data/
+      raw/              # Put CSV here (e.g., train.csv)
+      logs/invalid_rows.log
+
+frontend/
+  index.html            # Web page
+  styles.css            # Styles
+  script.js             # Calls the API and draws charts
+  utils.js              # Small helpers
 ```
 
-## Getting Started
+---
 
-### Prerequisites
-- Node.js (v14 or higher)
-- npm (v6 or higher)
+## Setup: Backend
 
-### Installation
+Requirements: Node.js 22+ and npm.
 
-1. Clone the repository:
-```sh
-git clone https://github.com/AdolehSamuel/urban-mobility.git
-cd urban-mobility
-```
+1. Install packages
 
-2. Install backend dependencies:
-```sh
+```bash
 cd backend
 npm install
 ```
 
-### Running the Application
+2. Add Indexes to data (optional but recommended)
 
-1. Start the backend server:
-```sh
-cd backend
+```bash
+# SQLite DB and our raw data file are very huge files that take time to recreate so they 
+# are stored in git via Git LFS. However, you can add indexes to the db on your setup to 
+# make it faster
+
+npm run add-indexes
+```
+
+3. Start the API
+
+```bash
+# Runs on http://localhost:4500 by default
+
+npm start
+```
+
+You can also use auto-reload during development:
+
+```bash
 npm run dev
 ```
 
-2. Open `frontend/index.html` in your browser
+Re-process Data?
 
-The application will be available at:
-- Frontend: Open `index.html` directly
-- Backend API: `http://localhost:4500`
+If you want to retouch our current data processor file - `backend/src/services/loader.js`, and re-process the data, make changes to the file and then run the following:
 
-## API Endpoints
+```bash
+# This will delete the existing processed files and run the updated data processor
 
-- `GET /trips` - Get paginated trip data
-- `GET /trips/stats` - Get summary statistics
-- `GET /trips/charts` - Get hourly trip distribution data
+npm run process-data
+```
 
-## Data Processing
+Notes:
 
-The application processes NYC taxi trip data and stores it in SQLite with the following enrichments:
-- Trip distance calculation using Haversine formula
-- Speed calculations
-- Temporal features (hour of day, day of week, weekend flags)
+- Bad rows from the CSV are logged to `backend/src/data/logs/invalid_rows.log`.
+- The API uses SQLite in read-only mode for safety.
+
+---
+
+## API (quick view)
+
+- `GET /` – Welcome text
+
+- `GET /trips` – List trips (paged)
+
+  - Query: `page` (default 1), `limit` (default 20)
+  - Returns: `trips`, `total`, `page`, `totalPages`
+
+- `GET /trips/stats` – Summary
+
+  - Returns: `totalTrips`, `totalPassengers`, `totalDuration` (in seconds)
+
+- `GET /trips/charts` – Trips by hour
+  - Returns: array of `{ hour: 0..23, count }`
+
+---
+
+## Setup: Frontend
+
+Open `frontend/index.html` with a simple static server (for example: VS Code Live Server, `npx http-server`, Netlify/Vercel preview, etc.).
+
+The file `frontend/script.js` points to a hosted API by default:
+
+```js
+const API_URL = "https://urban-mobility-bj30.onrender.com";
+```
+
+To use the local API, change it to:
+
+```js
+// const API_URL = "http://localhost:4500";
+```
+
+What you’ll see:
+
+- Cards with totals (trips, passengers, duration in hours)
+- A table with recent trips and pagination
+- A bar chart of trips by hour (Chart.js)
+
+---
+
+## Deploy
+
+- Backend: Render, Railway, Fly.io, or your own server. Make sure `trips.db` exists (create it with `npm run process-data`). We deployed our server to Render - https://urban-mobility-bj30.onrender.com.
+- Frontend: Any static host (Netlify, Vercel, GitHub Pages, S3, etc.). We deployed our Frontend to Netlify - https://urban-mobility-alu.netlify.app/.
+
+---
+
+## Common problems
+
+- API says "Database error": make sure `backend/src/db/trips.db` exists. If not, run `npm run process-data`.
+- Empty table or chart: check `API_URL` in `frontend/script.js` and verify the API is reachable.
+- Slow endpoints: run `npm run add-indexes` after loading data.
+
+---
 
 ## License
 
 MIT
-
-## Contributing
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request

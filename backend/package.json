@@ -6,7 +6,8 @@
     "scripts": {
         "start": "npm run add-indexes && node server.js",
         "dev": "nodemon server.js",
-        "process-data": "node src/services/loader.js",
+        "remove-processed": "rm -rf src/db/trips.db && rm -rf src/data/invalid_rows.log",
+        "process-data": "npm run remove-processed && node src/services/loader.js",
         "add-indexes": "node src/services/index-creation.js"
     },
     "dependencies": {
