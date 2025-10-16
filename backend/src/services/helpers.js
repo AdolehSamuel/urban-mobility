@@ -55,7 +55,12 @@ function insertBatch(db = new sqlite3.Database(), rows = []) {
     }
 
     statement.finalize(finalizeError => {
-      reject(finalizeError);
+      console.log("Finalized statement!\n");
+
+      if (finalizeError) {
+        console.log("Finalized Error here:");
+        reject(finalizeError);
+      }
     });
 
     resolve();

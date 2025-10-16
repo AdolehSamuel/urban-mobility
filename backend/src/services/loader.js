@@ -6,8 +6,16 @@ const csv = require("csv-parser");
 const sqlite = sqlite3.verbose();
 
 const { isValidTrip, haversine, insertBatch, sleep } = require("./helpers");
+const { isAnomalousTrip } = require("./algorithms");
+
+const dbFolder = path.join(__dirname, "../db");
+
+if (!fs.existsSync(dbFolder)) {
+  fs.mkdirSync(dbFolder);
+}
 
 const dbPath = path.join(__dirname, "../db/trips.db");
+
 const db = new sqlite.Database(dbPath);
 
 db.serialize(() => {
@@ -31,6 +39,12 @@ db.serialize(() => {
 });
 
 const rawCsvPath = path.join(__dirname, "../data/raw/train.csv");
+const logFolder = path.join(__dirname, "../data/logs");
+
+if (!fs.existsSync(logFolder)) {
+  fs.mkdirSync(logFolder);
+}
+
 const logPath = path.join(__dirname, "../data/logs/invalid_rows.log");
 
 const invalidLogStream = fs.createWriteStream(logPath, { flags: "w" });
@@ -67,7 +81,18 @@ stream
       };
 
       if (!isValidTrip(cleanRow)) {
-        invalidLogStream.write(JSON.stringify(row) + "\n");
+        invalidLogStream.write(
+          JSON.stringify({ ...row, reason: "invalid_trip" }) + "\n"
+        );
+        return;
+      }
+
+      const anomaly = isAnomalousTrip(cleanRow);
+
+      if (anomaly.anomaly && anomaly.reason) {
+        invalidLogStream.write(
+          JSON.stringify({ ...row, reason: anomaly.reason }) + "\n"
+        );
         return;
       }
 
