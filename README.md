@@ -6,6 +6,11 @@ This project shows NYC taxi trip data. It has:
 - A simple website (HTML/CSS/JS) with charts and a table
 
 ---
+### Video Walkthrough
+
+https://www.loom.com/share/f1714d1e9bed48e8aa02ee4c20273133?sid=1511f223-b490-41f2-88cf-1faf7df1998b
+
+---
 
 ### Deployed Frontend URL
 
