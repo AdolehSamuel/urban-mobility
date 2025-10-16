@@ -4,6 +4,13 @@ This project shows NYC taxi trip data. It has:
 
 - A backend API (Node.js + Express + SQLite)
 - A simple website (HTML/CSS/JS) with charts and a table
+---
+### Deployed Frontend URL
+https://urban-mobility-alu.netlify.app
+
+---
+### Deployed Backend URL
+https://urban-mobility-bj30.onrender.com
 
 ---
 
